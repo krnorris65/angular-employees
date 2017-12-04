@@ -33,4 +33,16 @@ app.controller("EmployeeCtrl", ($scope) => {
             "employmentEnd": null
         }
     ];
+
+    $scope.fireNow = function(person) {
+        const indexOfPerson = $scope.employees.indexOf(person)
+        const employeeFired = $scope.employees[indexOfPerson]
+        employeeFired.employmentEnd = Date.now()
+
+        console.log(employeeFired)
+
+        // $scope.employees.splice(indexOfPerson, 1)
+        console.log($scope.employees)
+
+    }
 })
