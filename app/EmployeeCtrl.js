@@ -34,15 +34,32 @@ app.controller("EmployeeCtrl", ($scope) => {
         }
     ];
 
-    $scope.fireNow = function(person) {
-        const indexOfPerson = $scope.employees.indexOf(person)
-        const employeeFired = $scope.employees[indexOfPerson]
-        employeeFired.employmentEnd = Date.now()
+    $scope.fireNow = (person) => {
+        const indexOfPerson = $scope.employees.indexOf(person) //find the index of the person clicked
+        const employeeFired = $scope.employees[indexOfPerson] //person who was clicked
+        employeeFired.employmentEnd = Date.now() //set employmentEnd for that person as Date.now()
 
-        console.log(employeeFired)
-
-        // $scope.employees.splice(indexOfPerson, 1)
         console.log($scope.employees)
-
     }
+    
+    $scope.newEmployee = () => {
+        const first = $scope.newFirst //value of First Name input
+        const last = $scope.newLast //value of Last Name input
+        const newPerson = { //creates an object with the information entered
+            "firstName": first,
+            "lastName": last,
+            "employmentStart": Date.now(), //sets start date as Date.now()
+            "employmentEnd": null //sets end date as null
+        }
+        
+        //add new employee to employees array
+        $scope.employees.push(newPerson)
+
+        //reset values of input fields
+        $scope.newFirst = "" 
+        $scope.newLast = ""
+
+        console.log($scope.employees)
+    }
+
 })

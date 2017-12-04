@@ -9,12 +9,20 @@
 <body ng-app="EmployeeMgmt">
 
     <section ng-controller="EmployeeCtrl">
-
+        <h2>Current Employees</h2>
         <ul ng-repeat="person in employees | orderBy: 'employmentStart'">
             <li ng-if="person.employmentEnd == null">{{ person.firstName}} {{person.lastName}} <button ng-click="fireNow(person)">Fire Employee</button></li>
         </ul>
 
+        <h2>New employee</h2>
+        <form ng-submit="newEmployee()">
+            First name: <input type="text" ng-model="newFirst">
+            Last name: <input type="text" ng-model="newLast">
+            <button>Hire employee</button>
+        </form>
+
     </section>
+
     
 
 
