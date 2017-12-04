@@ -6,14 +6,13 @@ app.controller("EmployeeCtrl", ($scope, $http) => {
     .get("https://angular-employees-94a88.firebaseio.com/employees.json")
     .then( employees => {
 
+        //created an array of the employees since firebase returns an object of objects
         $scope.employeeDB = []
 
         for(let key in employees.data){
             const current = employees.data[key]
             $scope.employeeDB.push(current)
         }
-
-        console.log("Initial DB", $scope.employeeDB)
     })
 
     $scope.fireNow = (person) => {
@@ -23,8 +22,6 @@ app.controller("EmployeeCtrl", ($scope, $http) => {
         
         $http
         .put(`https://angular-employees-94a88.firebaseio.com/employees/${indexOfPerson}.json`, employeeFired) //update firebase with employee data
-
-        console.log("Updated DB", $scope.employeeDB)
     }
     
     $scope.newEmployee = () => {
@@ -44,11 +41,6 @@ app.controller("EmployeeCtrl", ($scope, $http) => {
         //reset values of input fields
         $scope.newFirst = "" 
         $scope.newLast = ""
-
-        console.log($scope.employeeDB)
     }
-
-
-
 
 })
