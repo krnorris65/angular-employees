@@ -1,45 +1,30 @@
 let app = angular.module("EmployeeMgmt", []);
 
-app.controller("EmployeeCtrl", ($scope) => {
-    $scope.employees = [
-        {
-            "firstName": "Erin",
-            "lastName": "Orstrom",
-            "employmentStart": 1512140013765,
-            "employmentEnd": null
-        },
-        {
-            "firstName": "Wayne",
-            "lastName": "Hutchinson",
-            "employmentStart": 1512139999102,
-            "employmentEnd": null
-        },
-        {
-            "firstName": "Sarah",
-            "lastName": "Story",
-            "employmentStart": 1512139999729,
-            "employmentEnd": null
-        },
-        {
-            "firstName": "Sulaiman",
-            "lastName": "Allan",
-            "employmentStart": 1512140294571,
-            "employmentEnd": null
-        },
-        {
-            "firstName": "Ben",
-            "lastName": "Marks",
-            "employmentStart": 1512200192934,
-            "employmentEnd": null
+app.controller("EmployeeCtrl", ($scope, $http) => {
+
+    $http
+    .get("https://angular-employees-94a88.firebaseio.com/employees.json")
+    .then( employees => {
+
+        $scope.employeeDB = []
+
+        for(let key in employees.data){
+            const current = employees.data[key]
+            $scope.employeeDB.push(current)
         }
-    ];
+
+        console.log("Initial DB", $scope.employeeDB)
+    })
 
     $scope.fireNow = (person) => {
-        const indexOfPerson = $scope.employees.indexOf(person) //find the index of the person clicked
-        const employeeFired = $scope.employees[indexOfPerson] //person who was clicked
+        const indexOfPerson = $scope.employeeDB.indexOf(person) //find the index of the person clicked
+        const employeeFired = $scope.employeeDB[indexOfPerson]
         employeeFired.employmentEnd = Date.now() //set employmentEnd for that person as Date.now()
+        
+        $http
+        .put(`https://angular-employees-94a88.firebaseio.com/employees/${indexOfPerson}.json`, employeeFired) //update firebase with employee data
 
-        console.log($scope.employees)
+        console.log("Updated DB", $scope.employeeDB)
     }
     
     $scope.newEmployee = () => {
@@ -49,17 +34,21 @@ app.controller("EmployeeCtrl", ($scope) => {
             "firstName": first,
             "lastName": last,
             "employmentStart": Date.now(), //sets start date as Date.now()
-            "employmentEnd": null //sets end date as null
+            "employmentEnd": 0 //sets end date as null
         }
         
         //add new employee to employees array
-        $scope.employees.push(newPerson)
+        $http
+        .post(`https://angular-employees-94a88.firebaseio.com/employees.json`, newPerson) //update firebase with new employee data
 
         //reset values of input fields
         $scope.newFirst = "" 
         $scope.newLast = ""
 
-        console.log($scope.employees)
+        console.log($scope.employeeDB)
     }
+
+
+
 
 })

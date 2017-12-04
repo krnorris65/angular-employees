@@ -10,8 +10,8 @@
 
     <section ng-controller="EmployeeCtrl">
         <h2>Current Employees</h2>
-        <ul ng-repeat="person in employees | orderBy: 'employmentStart'">
-            <li ng-if="person.employmentEnd == null">{{ person.firstName}} {{person.lastName}} <button ng-click="fireNow(person)">Fire Employee</button></li>
+        <ul ng-repeat="person in employeeDB | orderBy: 'person.employmentStart' ">
+            <li ng-if="person.employmentEnd === 0">{{ person.firstName}} {{person.lastName}} <button ng-click="fireNow(person)">Fire Employee</button></li>
         </ul>
 
         <h2>New employee</h2>
@@ -23,7 +23,6 @@
 
     </section>
 
-    
 
 
     <script src="lib/node_modules/angular/angular.min.js"></script>
